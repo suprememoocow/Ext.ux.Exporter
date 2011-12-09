@@ -4,11 +4,11 @@
  * Class providing a common way of downloading data in .xls or .csv format
  */
 Ext.define('Ext.ux.exporter.Exporter', {
-    requires: ["Ext.ux.exporter.ExcelFormatter.Cell", 
-               "Ext.ux.exporter.ExcelFormatter.ExcelFormatter", 
-               "Ext.ux.exporter.ExcelFormatter.Style", 
-               "Ext.ux.exporter.ExcelFormatter.Workbook",
-               "Ext.ux.exporter.ExcelFormatter.Worksheet",
+    requires: ["Ext.ux.exporter.excelformatter.Cell", 
+               "Ext.ux.exporter.excelformatter.ExcelFormatter", 
+               "Ext.ux.exporter.excelformatter.Style", 
+               "Ext.ux.exporter.excelformatter.Workbook",
+               "Ext.ux.exporter.excelformatter.Worksheet",
                "Ext.ux.exporter.Base64"],
                
     /*
@@ -18,7 +18,7 @@ Ext.define('Ext.ux.exporter.Exporter', {
      */
     exportGrid: function(grid, formatter, config) {
       config = config || {};
-      formatter = formatter || Ext.create('Ext.ux.exporter.ExcelFormatter.ExcelFormatter');
+      formatter = formatter || Ext.create('Ext.ux.exporter.excelformatter.ExcelFormatter');
       
       Ext.applyIf(config, {
         title  : grid.title,
@@ -30,7 +30,7 @@ Ext.define('Ext.ux.exporter.Exporter', {
     
     exportStore: function(store, formatter, config) {
        config = config || {};
-       formatter = formatter || Ext.create('Ext.ux.exporter.ExcelFormatter.ExcelFormatter');
+       formatter = formatter || Ext.create('Ext.ux.exporter.excelformatter.ExcelFormatter');
 
        Ext.applyIf(config, {
          columns: config.store.fields.items
@@ -41,7 +41,7 @@ Ext.define('Ext.ux.exporter.Exporter', {
     
     exportTree: function(tree, formatter, config) {
       config    = config || {};
-      formatter = formatter || Ext.create('Ext.ux.exporter.ExcelFormatter.ExcelFormatter');
+      formatter = formatter || Ext.create('Ext.ux.exporter.excelformatter.ExcelFormatter');
       
       var store = tree.store || config.store;
 

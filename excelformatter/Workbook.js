@@ -1,9 +1,9 @@
 /**
- * @class Ext.ux.exporter.ExcelFormatter.Workbook
+ * @class Ext.ux.exporter.excelformatter.Workbook
  * @extends Object
  * Represents an Excel workbook
  */
-Ext.define('Ext.ux.exporter.ExcelFormatter.Workbook', {
+Ext.define('Ext.ux.exporter.excelformatter.Workbook', {
   
   constructor: function(config) {
     config = config || {};
@@ -40,14 +40,14 @@ Ext.define('Ext.ux.exporter.ExcelFormatter.Workbook', {
       /**
        * @property styles
        * @type Array
-       * The array of Ext.ux.exporter.ExcelFormatter.Style objects attached to this workbook
+       * The array of Ext.ux.exporter.excelformatter.Style objects attached to this workbook
        */
       styles: [],
       
       /**
        * @property compiledStyles
        * @type Array
-       * Array of all rendered Ext.ux.exporter.ExcelFormatter.Style objects for this workbook
+       * Array of all rendered Ext.ux.exporter.excelformatter.Style objects for this workbook
        */
       compiledStyles: [],
       
@@ -92,10 +92,10 @@ Ext.define('Ext.ux.exporter.ExcelFormatter.Workbook', {
    * Adds a worksheet to this workbook based on a store and optional config
    * @param {Ext.data.Store} store The store to initialize the worksheet with
    * @param {Object} config Optional config object
-   * @return {Ext.ux.exporter.ExcelFormatter.Worksheet} The worksheet
+   * @return {Ext.ux.exporter.excelformatter.Worksheet} The worksheet
    */
   addWorksheet: function(store, config) {
-    var worksheet = Ext.create('Ext.ux.exporter.ExcelFormatter.Worksheet', store, config);
+    var worksheet = Ext.create('Ext.ux.exporter.excelformatter.Worksheet', store, config);
     
     this.worksheets.push(worksheet);
     
@@ -103,11 +103,11 @@ Ext.define('Ext.ux.exporter.ExcelFormatter.Workbook', {
   },
   
   /**
-   * Adds a new Ext.ux.exporter.ExcelFormatter.Style to this Workbook
+   * Adds a new Ext.ux.exporter.excelformatter.Style to this Workbook
    * @param {Object} config The style config, passed to the Style constructor (required)
    */
   addStyle: function(config) {
-    var style = Ext.create('Ext.ux.exporter.ExcelFormatter.Style', config || {});
+    var style = Ext.create('Ext.ux.exporter.excelformatter.Style', config || {});
     
     this.styles.push(style);
     

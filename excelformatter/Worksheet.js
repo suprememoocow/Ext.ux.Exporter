@@ -1,10 +1,10 @@
 /**
- * @class Ext.ux.exporter.ExcelFormatter.Worksheet
+ * @class Ext.ux.exporter.excelformatter.Worksheet
  * @extends Object
  * Represents an Excel worksheet
  * @cfg {Ext.data.Store} store The store to use (required)
  */
-Ext.define('Ext.ux.exporter.ExcelFormatter.Worksheet', {
+Ext.define('Ext.ux.exporter.excelformatter.Worksheet', {
 
   constructor: function(store, config) {
     config = config || {};
@@ -159,7 +159,7 @@ Ext.define('Ext.ux.exporter.ExcelFormatter.Worksheet', {
   buildCell: function(value, type, style) {
     if (type == "DateTime" && Ext.isFunction(value.format)) value = value.format(this.dateFormatString);
     
-    return Ext.create('Ext.ux.exporter.ExcelFormatter.Cell', {
+    return Ext.create('Ext.ux.exporter.excelformatter.Cell', {
       value: value,
       type : type,
       style: style
