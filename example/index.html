@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-    <link href='http://extjs.cachefly.net/ext-2.2/resources/css/ext-all.css' rel='stylesheet' type='text/css' />
+    <link href='http://extjs.cachefly.net/ext-4.0.0/resources/css/ext-all.css' rel='stylesheet' type='text/css' />
     <link href='style.css' rel='stylesheet' type='text/css' />
     <title>Ext.ux.Exporter Example</title>
   </head>
@@ -19,11 +19,20 @@
     <!-- The grid will be rendered here -->
     <div id="grid"></div>
     
-    <script src="http://extjs.cachefly.net/ext-3.0.0/adapter/ext/ext-base.js" type="text/javascript"></script>
-    <script src="http://extjs.cachefly.net/ext-3.0.0/ext-all.js" type="text/javascript"></script>
-    <script src="../Exporter-all.js" type="text/javascript"></script>
-    
+    <!-- 
+    <script src="http://extjs.cachefly.net/ext-4.0.0/adapter/ext/ext-base.js" type="text/javascript"></script>
+     -->
+    <script src="http://extjs.cachefly.net/ext-4.0.0/ext-all-debug.js" type="text/javascript"></script>
+        
     <script type="text/javascript" charset="utf-8">
+		Ext.Loader.setConfig({
+			enabled: true,
+			disableCaching: false,
+			paths: {
+				'Ext.ux.exporter': 'http://localhost:8080/fsvoc-mt-web/Ext.ux.Exporter'
+			}
+		});
+	  Ext.require('Ext.ux.exporter.Button');
       Ext.onReady(function() {
         /**
          * This is largely the same as the basic grid example at http://www.extjs.com/deploy/dev/examples/grid/array-grid.html
@@ -75,7 +84,7 @@
         store.loadData(myData);
         
         //create and render the grid
-        var grid = new Ext.grid.GridPanel({
+        var grid = Ext.create('Ext.grid.Panel', {
           height : 350,
           width  : 600,
           title  : 'Exportable grid',
@@ -95,19 +104,28 @@
         grid.render('grid');
         
         //Create the Download button and add it to the top toolbar
-        var exportButton = new Ext.ux.Exporter.Button({
-          component: grid,
-          text     : "Download as .xls"
-        });
+        //var exportButton = Ext.create('Ext.ux.exporter.Button', {
+        //  component: grid,
+        //  text     : "Download as .xls"
+        //});
         
-        grid.getTopToolbar().add(exportButton);
+        //grid.getTopToolbar().add(exportButton);
         
         //finally, remove the loading mask
-        (function(){  
+        //(function(){  
           Ext.get('loading').remove();  
           Ext.get('loading-mask').fadeOut({remove:true});  
-        }).defer(250);
+        //}).defer(250);
+        
+        Ext.select('#exportLink').on('click', function() { 
+            var exporter = Ext.create('Ext.ux.exporter.Exporter');           
+            var url = 'data:application/vnd.ms-excel;base64,' + exporter.exportGrid(grid);
+            window.alert(url);
+            window.location.href= url;
+        });
       });
     </script>
+      <a href="#" id="exportLink">Export</a>
+
   </body>
 </html>

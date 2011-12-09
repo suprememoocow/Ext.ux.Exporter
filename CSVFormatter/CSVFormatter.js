@@ -1,8 +1,8 @@
 /**
- * @class Ext.ux.Exporter.CSVFormatter
- * @extends Ext.ux.Exporter.Formatter
+ * @class Ext.ux.exporter.CSVFormatter
+ * @extends Ext.ux.exporter.Formatter
  * Specialised Format class for outputting .csv files
  */
-Ext.ux.Exporter.CSVFormatter = Ext.extend(Ext.ux.Exporter.Formatter, {
-  
+Ext.define('Ext.ux.exporter.CSVFormatter', {
+  extend: 'Ext.ux.exporter.Formatter'
 });

@@ -66,11 +66,11 @@ var Base64 = (function() {
 })();
 
 /**
- * @class Ext.ux.Exporter
+ * @class Ext.ux.exporter
  * @author Ed Spencer (http://edspencer.net)
  * Class providing a common way of downloading data in .xls or .csv format
  */
-Ext.ux.Exporter = function() {
+Ext.ux.exporter = function() {
   return {
     /**
      * Exports a grid, using the .xls formatter by default
@@ -79,7 +79,7 @@ Ext.ux.Exporter = function() {
      */
     exportGrid: function(grid, formatter, config) {
       config = config || {};
-      formatter = formatter || new Ext.ux.Exporter.ExcelFormatter();
+      formatter = formatter || new Ext.ux.exporter.ExcelFormatter();
       
       Ext.applyIf(config, {
         title  : grid.title,
@@ -91,7 +91,7 @@ Ext.ux.Exporter = function() {
     
     exportStore: function(store, formatter, config) {
        config = config || {};
-       formatter = formatter || new Ext.ux.Exporter.ExcelFormatter();
+       formatter = formatter || new Ext.ux.exporter.ExcelFormatter();
 
        Ext.applyIf(config, {
          columns: config.store.fields.items
@@ -102,7 +102,7 @@ Ext.ux.Exporter = function() {
     
     exportTree: function(tree, formatter, config) {
       config    = config || {};
-      formatter = formatter || new Ext.ux.Exporter.ExcelFormatter();
+      formatter = formatter || new Ext.ux.exporter.ExcelFormatter();
       
       var store = tree.store || config.store;
 
@@ -116,18 +116,18 @@ Ext.ux.Exporter = function() {
 }();
 
 /**
- * @class Ext.ux.Exporter.Button
+ * @class Ext.ux.exporter.Button
  * @extends Ext.Button
  * @author Nige White, with modifications from Ed Spencer
  * Specialised Button class that allows downloading of data via data: urls.
  * Internally, this is just a link.
  * Pass it either an Ext.Component subclass with a 'store' property, or just a store:
- * new Ext.ux.Exporter.Button({component: someGrid});
- * new Ext.ux.Exporter.Button({store: someStore});
+ * new Ext.ux.exporter.Button({component: someGrid});
+ * new Ext.ux.exporter.Button({store: someStore});
  * @cfg {Ext.Component} component The component the store is bound to
  * @cfg {Ext.data.Store} store The store to export (alternatively, pass a component with a store property)
  */
-Ext.ux.Exporter.Button = Ext.extend(Ext.Button, {
+Ext.ux.exporter.Button = Ext.extend(Ext.Button, {
   constructor: function(config) {
     config = config || {};
     
@@ -150,11 +150,11 @@ Ext.ux.Exporter.Button = Ext.extend(Ext.Button, {
       });
     }
     
-    Ext.ux.Exporter.Button.superclass.constructor.call(this, config);
+    Ext.ux.exporter.Button.superclass.constructor.call(this, config);
     
     if (this.store && Ext.isFunction(this.store.on)) {
       var setLink = function() {
-        this.getEl().child('a', true).href = 'data:application/vnd.ms-excel;base64,' + Ext.ux.Exporter[config.exportFunction](this.component, null, config);
+        this.getEl().child('a', true).href = 'data:application/vnd.ms-excel;base64,' + Ext.ux.exporter[config.exportFunction](this.component, null, config);
         
         this.enable();
       };
@@ -201,14 +201,14 @@ Ext.ux.Exporter.Button = Ext.extend(Ext.Button, {
     }
 });
 
-Ext.reg('exportbutton', Ext.ux.Exporter.Button);
+Ext.reg('exportbutton', Ext.ux.exporter.Button);
 
 /**
- * @class Ext.ux.Exporter.Formatter
+ * @class Ext.ux.exporter.Formatter
  * @author Ed Spencer (http://edspencer.net)
  * @cfg {Ext.data.Store} store The store to export
  */
-Ext.ux.Exporter.Formatter = function(config) {
+Ext.ux.exporter.Formatter = function(config) {
   config = config || {};
         
   Ext.applyIf(config, {
@@ -216,7 +216,7 @@ Ext.ux.Exporter.Formatter = function(config) {
   });
 };
 
-Ext.ux.Exporter.Formatter.prototype = {
+Ext.ux.exporter.Formatter.prototype = {
   /**
    * Performs the actual formatting. This must be overridden by a subclass
    */
@@ -224,14 +224,14 @@ Ext.ux.Exporter.Formatter.prototype = {
 };
 
 /**
- * @class Ext.ux.Exporter.ExcelFormatter
- * @extends Ext.ux.Exporter.Formatter
+ * @class Ext.ux.exporter.ExcelFormatter
+ * @extends Ext.ux.exporter.Formatter
  * Specialised Format class for outputting .xls files
  */
-Ext.ux.Exporter.ExcelFormatter = Ext.extend(Ext.ux.Exporter.Formatter, {
+Ext.ux.exporter.ExcelFormatter = Ext.extend(Ext.ux.exporter.Formatter, {
   
   format: function(store, config) {
-    var workbook = new Ext.ux.Exporter.ExcelFormatter.Workbook(config);
+    var workbook = new Ext.ux.exporter.ExcelFormatter.Workbook(config);
     workbook.addWorksheet(store, config || {});
     
     return workbook.render();
@@ -239,11 +239,11 @@ Ext.ux.Exporter.ExcelFormatter = Ext.extend(Ext.ux.Exporter.Formatter, {
 });
 
 /**
- * @class Ext.ux.Exporter.ExcelFormatter.Workbook
+ * @class Ext.ux.exporter.ExcelFormatter.Workbook
  * @extends Object
  * Represents an Excel workbook
  */
-Ext.ux.Exporter.ExcelFormatter.Workbook = Ext.extend(Object, {
+Ext.ux.exporter.ExcelFormatter.Workbook = Ext.extend(Object, {
   
   constructor: function(config) {
     config = config || {};
@@ -280,14 +280,14 @@ Ext.ux.Exporter.ExcelFormatter.Workbook = Ext.extend(Object, {
       /**
        * @property styles
        * @type Array
-       * The array of Ext.ux.Exporter.ExcelFormatter.Style objects attached to this workbook
+       * The array of Ext.ux.exporter.ExcelFormatter.Style objects attached to this workbook
        */
       styles: [],
       
       /**
        * @property compiledStyles
        * @type Array
-       * Array of all rendered Ext.ux.Exporter.ExcelFormatter.Style objects for this workbook
+       * Array of all rendered Ext.ux.exporter.ExcelFormatter.Style objects for this workbook
        */
       compiledStyles: [],
       
@@ -332,10 +332,10 @@ Ext.ux.Exporter.ExcelFormatter.Workbook = Ext.extend(Object, {
    * Adds a worksheet to this workbook based on a store and optional config
    * @param {Ext.data.Store} store The store to initialize the worksheet with
    * @param {Object} config Optional config object
-   * @return {Ext.ux.Exporter.ExcelFormatter.Worksheet} The worksheet
+   * @return {Ext.ux.exporter.ExcelFormatter.Worksheet} The worksheet
    */
   addWorksheet: function(store, config) {
-    var worksheet = new Ext.ux.Exporter.ExcelFormatter.Worksheet(store, config);
+    var worksheet = new Ext.ux.exporter.ExcelFormatter.Worksheet(store, config);
     
     this.worksheets.push(worksheet);
     
@@ -343,11 +343,11 @@ Ext.ux.Exporter.ExcelFormatter.Workbook = Ext.extend(Object, {
   },
   
   /**
-   * Adds a new Ext.ux.Exporter.ExcelFormatter.Style to this Workbook
+   * Adds a new Ext.ux.exporter.ExcelFormatter.Style to this Workbook
    * @param {Object} config The style config, passed to the Style constructor (required)
    */
   addStyle: function(config) {
-    var style = new Ext.ux.Exporter.ExcelFormatter.Style(config || {});
+    var style = new Ext.ux.exporter.ExcelFormatter.Style(config || {});
     
     this.styles.push(style);
     
@@ -565,12 +565,12 @@ Ext.ux.Exporter.ExcelFormatter.Workbook = Ext.extend(Object, {
 });
 
 /**
- * @class Ext.ux.Exporter.ExcelFormatter.Worksheet
+ * @class Ext.ux.exporter.ExcelFormatter.Worksheet
  * @extends Object
  * Represents an Excel worksheet
  * @cfg {Ext.data.Store} store The store to use (required)
  */
-Ext.ux.Exporter.ExcelFormatter.Worksheet = Ext.extend(Object, {
+Ext.ux.exporter.ExcelFormatter.Worksheet = Ext.extend(Object, {
 
   constructor: function(store, config) {
     config = config || {};
@@ -588,7 +588,7 @@ Ext.ux.Exporter.ExcelFormatter.Worksheet = Ext.extend(Object, {
     
     Ext.apply(this, config);
     
-    Ext.ux.Exporter.ExcelFormatter.Worksheet.superclass.constructor.apply(this, arguments);
+    this.callParent(arguments);
   },
   
   /**
@@ -724,7 +724,7 @@ Ext.ux.Exporter.ExcelFormatter.Worksheet = Ext.extend(Object, {
   buildCell: function(value, type, style) {
     if (type == "DateTime" && Ext.isFunction(value.format)) value = value.format(this.dateFormatString);
     
-    return new Ext.ux.Exporter.ExcelFormatter.Cell({
+    return new Ext.ux.exporter.ExcelFormatter.Cell({
       value: value,
       type : type,
       style: style
@@ -745,11 +745,11 @@ Ext.ux.Exporter.ExcelFormatter.Worksheet = Ext.extend(Object, {
 });
 
 /**
- * @class Ext.ux.Exporter.ExcelFormatter.Cell
+ * @class Ext.ux.exporter.ExcelFormatter.Cell
  * @extends Object
  * Represents a single cell in a worksheet
  */
-Ext.ux.Exporter.ExcelFormatter.Cell = Ext.extend(Object, {
+Ext.ux.exporter.ExcelFormatter.Cell = Ext.extend(Object, {
 
   constructor: function(config) {
     Ext.applyIf(config, {
@@ -757,8 +757,8 @@ Ext.ux.Exporter.ExcelFormatter.Cell = Ext.extend(Object, {
     });
     
     Ext.apply(this, config);
-    
-    Ext.ux.Exporter.ExcelFormatter.Cell.superclass.constructor.apply(this, arguments);
+        
+    this.callParent(arguments);
   },
   
   render: function() {
@@ -773,11 +773,11 @@ Ext.ux.Exporter.ExcelFormatter.Cell = Ext.extend(Object, {
 });
 
 /**
- * @class Ext.ux.Exporter.ExcelFormatter.Style
+ * @class Ext.ux.exporter.ExcelFormatter.Style
  * @extends Object
  * Represents a style declaration for a Workbook (this is like defining CSS rules). Example:
  * 
- * new Ext.ux.Exporter.ExcelFormatter.Style({
+ * new Ext.ux.exporter.ExcelFormatter.Style({
  *   attributes: [
  *     {
  *       name: "Alignment",
@@ -803,7 +803,7 @@ Ext.ux.Exporter.ExcelFormatter.Cell = Ext.extend(Object, {
  * @cfg {Array} attributes The attributes for this style
  * @cfg {String} parentStyle The (optional parentStyle ID)
  */
-Ext.ux.Exporter.ExcelFormatter.Style = Ext.extend(Object, {
+Ext.ux.exporter.ExcelFormatter.Style = Ext.extend(Object, {
 
   constructor: function(config) {
     config = config || {};
@@ -813,7 +813,8 @@ Ext.ux.Exporter.ExcelFormatter.Style = Ext.extend(Object, {
       attributes : []
     });
     
-    Ext.ux.Exporter.ExcelFormatter.Style.superclass.constructor.apply(this, arguments);
+    Ext.ux.exporter.ExcelFormatter.Style.superclass.constructor.apply(this, arguments);
+    
     
     if (this.id == undefined) throw new Error("An ID must be provided to Style");
     

@@ -1,9 +1,9 @@
 /**
- * @class Ext.ux.Exporter.ExcelFormatter.Cell
+ * @class Ext.ux.exporter.ExcelFormatter.Cell
  * @extends Object
  * Represents a single cell in a worksheet
  */
-Ext.ux.Exporter.ExcelFormatter.Cell = Ext.extend(Object, {
+Ext.define('Ext.ux.exporter.ExcelFormatter.Cell', {
 
   constructor: function(config) {
     Ext.applyIf(config, {
@@ -11,8 +11,7 @@ Ext.ux.Exporter.ExcelFormatter.Cell = Ext.extend(Object, {
     });
     
     Ext.apply(this, config);
-    
-    Ext.ux.Exporter.ExcelFormatter.Cell.superclass.constructor.apply(this, arguments);
+    this.callParent(arguments);
   },
   
   render: function() {

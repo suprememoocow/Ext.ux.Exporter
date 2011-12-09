@@ -1,17 +1,22 @@
 /**
- * @class Ext.ux.Exporter.Button
+ * @class Ext.ux.exporter.Button
  * @extends Ext.Button
  * @author Nige White, with modifications from Ed Spencer
  * Specialised Button class that allows downloading of data via data: urls.
  * Internally, this is just a link.
  * Pass it either an Ext.Component subclass with a 'store' property, or just a store:
- * new Ext.ux.Exporter.Button({component: someGrid});
- * new Ext.ux.Exporter.Button({store: someStore});
+ * new Ext.ux.exporter.Button({component: someGrid});
+ * new Ext.ux.exporter.Button({store: someStore});
  * @cfg {Ext.Component} component The component the store is bound to
  * @cfg {Ext.data.Store} store The store to export (alternatively, pass a component with a store property)
  */
-Ext.ux.Exporter.Button = Ext.extend(Ext.Button, {
+Ext.define('Ext.ux.exporter.Button', { 
+  extend: 'Ext.Button',
+  alias: "widget.exportButton",
+  
   constructor: function(config) {
+    this.callParent(arguments);  
+      
     config = config || {};
     
     Ext.applyIf(config, {
@@ -31,13 +36,11 @@ Ext.ux.Exporter.Button = Ext.extend(Ext.Button, {
           store: config.store
         }
       });
-    }
-    
-    Ext.ux.Exporter.Button.superclass.constructor.call(this, config);
+    }    
     
     if (this.store && Ext.isFunction(this.store.on)) {
       var setLink = function() {
-        this.getEl().child('a', true).href = 'data:application/vnd.ms-excel;base64,' + Ext.ux.Exporter[config.exportFunction](this.component, null, config);
+        this.getEl().child('a', true).href = 'data:application/vnd.ms-excel;base64,' + Ext.ux.exporter[config.exportFunction](this.component, null, config);
         
         this.enable();
       };
@@ -64,13 +67,14 @@ Ext.ux.Exporter.Button = Ext.extend(Ext.Button, {
       }else{
         btn = this.template.append(ct, targs, true);
       }
-      var btnEl = btn.child("a:first");
+      
+      var btnEl = btn.select("a:first");
       this.btnEl = btnEl;
       btnEl.on('focus', this.onFocus, this);
       btnEl.on('blur', this.onBlur, this);
 
-      this.initButtonEl(btn, btnEl);
-      Ext.ButtonToggleMgr.register(this);
+      //this.initButtonEl(btn, btnEl);
+      //Ext.ButtonToggleMgr.register(this);
     },
 
     onClick : function(e){
@@ -84,4 +88,3 @@ Ext.ux.Exporter.Button = Ext.extend(Ext.Button, {
     }
 });
 
-Ext.reg('exportbutton', Ext.ux.Exporter.Button);

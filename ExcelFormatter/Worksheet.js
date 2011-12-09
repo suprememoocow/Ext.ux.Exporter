@@ -1,10 +1,10 @@
 /**
- * @class Ext.ux.Exporter.ExcelFormatter.Worksheet
+ * @class Ext.ux.exporter.ExcelFormatter.Worksheet
  * @extends Object
  * Represents an Excel worksheet
  * @cfg {Ext.data.Store} store The store to use (required)
  */
-Ext.ux.Exporter.ExcelFormatter.Worksheet = Ext.extend(Object, {
+Ext.define('Ext.ux.exporter.ExcelFormatter.Worksheet', {
 
   constructor: function(store, config) {
     config = config || {};
@@ -22,7 +22,7 @@ Ext.ux.Exporter.ExcelFormatter.Worksheet = Ext.extend(Object, {
     
     Ext.apply(this, config);
     
-    Ext.ux.Exporter.ExcelFormatter.Worksheet.superclass.constructor.apply(this, arguments);
+    this.callParent(arguments);
   },
   
   /**
@@ -99,7 +99,7 @@ Ext.ux.Exporter.ExcelFormatter.Worksheet = Ext.extend(Object, {
   },
   
   buildColumn: function(width) {
-    return String.format('<ss:Column ss:AutoFitWidth="1" ss:Width="{0}" />', width || 164);
+    return Ext.String.format('<ss:Column ss:AutoFitWidth="1" ss:Width="{0}" />', width || 164);
   },
   
   buildRows: function() {
@@ -118,15 +118,15 @@ Ext.ux.Exporter.ExcelFormatter.Worksheet = Ext.extend(Object, {
     Ext.each(this.columns, function(col) {
       var title;
       
-      if (col.header != undefined) {
-        title = col.header;
+      if (col.text != undefined) {
+        title = col.text;
       } else {
         //make columns taken from Record fields (e.g. with a col.name) human-readable
-        title = col.name.replace(/_/g, " ");
+        title = col.dataIndex ? col.dataIndex.replace(/_/g, " ") : "";
         title = title.charAt(0).toUpperCase() + title.substr(1).toLowerCase();
       }
       
-      cells.push(String.format('<ss:Cell ss:StyleID="headercell"><ss:Data ss:Type="String">{0}</ss:Data><ss:NamedCell ss:Name="Print_Titles" /></ss:Cell>', title));
+      cells.push(Ext.String.format('<ss:Cell ss:StyleID="headercell"><ss:Data ss:Type="String">{0}</ss:Data><ss:NamedCell ss:Name="Print_Titles" /></ss:Cell>', title));
     }, this);
     
     return cells.join("");
@@ -139,26 +139,27 @@ Ext.ux.Exporter.ExcelFormatter.Worksheet = Ext.extend(Object, {
     
     Ext.each(this.columns, function(col) {
       var name  = col.name || col.dataIndex;
+      var value, type;
       
       //if given a renderer via a ColumnModel, use it and ensure data type is set to String
       if (Ext.isFunction(col.renderer)) {
-        var value = col.renderer(record.get(name), null, record),
-            type = "String";
+        value = col.renderer(record.get(name), null, record);
+        type = "String";
       } else {
-        var value = record.get(name),
-            type  = this.typeMappings[col.type || record.fields.item(name).type];
+        value = record.get(name);
+        type  = this.typeMappings[typeof value];
       }
       
       cells.push(this.buildCell(value, type, style).render());
     }, this);
     
-    return String.format("<ss:Row>{0}</ss:Row>", cells.join(""));
+    return Ext.String.format("<ss:Row>{0}</ss:Row>", cells.join(""));
   },
   
   buildCell: function(value, type, style) {
     if (type == "DateTime" && Ext.isFunction(value.format)) value = value.format(this.dateFormatString);
     
-    return new Ext.ux.Exporter.ExcelFormatter.Cell({
+    return Ext.create('Ext.ux.exporter.ExcelFormatter.Cell', {
       value: value,
       type : type,
       style: style

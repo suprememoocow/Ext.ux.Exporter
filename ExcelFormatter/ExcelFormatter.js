@@ -1,14 +1,16 @@
 /**
- * @class Ext.ux.Exporter.ExcelFormatter
- * @extends Ext.ux.Exporter.Formatter
+ * @class Ext.ux.exporter.ExcelFormatter
+ * @extends Ext.ux.exporter.Formatter
  * Specialised Format class for outputting .xls files
  */
-Ext.ux.Exporter.ExcelFormatter = Ext.extend(Ext.ux.Exporter.Formatter, {
+Ext.define('Ext.ux.exporter.ExcelFormatter.ExcelFormatter', {  
+  extend: 'Ext.ux.exporter.Formatter',
   
   format: function(store, config) {
-    var workbook = new Ext.ux.Exporter.ExcelFormatter.Workbook(config);
+    var workbook = Ext.create('Ext.ux.exporter.ExcelFormatter.Workbook', config);
     workbook.addWorksheet(store, config || {});
     
     return workbook.render();
   }
+
 });
