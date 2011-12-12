@@ -10,24 +10,18 @@ h2. Installation
 
 p. Download the latest version in any of the following ways:
 
-* git clone git://github.com/edspencer/Ext.ux.Exporter.git
-* Download from http://github.com/edspencer/Ext.ux.Exporter/zipball/master
-* Copy/paste Exporter-all.js from http://github.com/edspencer/Ext.ux.Exporter/blob/master/Exporter-all.js
-
-p. To install Ext.ux.Exporter, just include Exporter-all.js somewhere on your page:
-
-bc. <script type="text/javascript" src="Exporter-all.js"></script>
+* git clone git://github.com/suprememoocow/Ext.ux.Exporter.git
+* Download from https://github.com/suprememoocow/Ext.ux.Exporter/zipball/master
 
 h2. Usage
 
 p. The most common use case for the Exporter is exporting a grid to Excel, which is as simple as doing the following:
 
-bc.. var grid = new Ext.grid.GridPanel({
+bc.. var grid = Ext.create('Ext.grid.Panel', {
   store: someStore,
   tbar : [
     {
-      xtype: 'exportbutton',
-      store: someStore
+      xtype: 'exportbutton'
     }
   ],
   //your normal grid config goes here
