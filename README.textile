@@ -32,3 +32,4 @@ p. The provided 'exportbutton' is just a specialised Ext.Button subclass which r
 h2. Example
 
 Download or clone the code (see Installation section for details) and then drag the example/index.html file into any browser to see an example of the Exporter at work.
+[![Gitter](http://localhost:4000/Join Chat.svg)](http://localhost:5000/suprememoocow/Ext.ux.Exporter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
